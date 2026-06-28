@@ -114,15 +114,10 @@
       </div>
     </section>
 
-    <section style="background:#fff;padding:{{sectionPadY}} 24px">
-      <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:{{genderCols}};gap:8px">
-        <div style="position:relative;height:420px;border-radius:16px;overflow:hidden;background:#2a1a1a url('assets/for-her.jpg');background-size:cover;background-position:center;cursor:pointer;transition:transform .25s ease" style-hover="transform:scale(1.02)">
-          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent)"></div>
-          <div style="position:absolute;left:24px;bottom:24px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.01em">For Her</div>
-        </div>
-        <div style="position:relative;height:420px;border-radius:16px;overflow:hidden;background:#1a1a1a url('assets/for-him.jpg');background-size:cover;background-position:center;cursor:pointer;transition:transform .25s ease" style-hover="transform:scale(1.02)">
-          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent)"></div>
-          <div style="position:absolute;left:24px;bottom:24px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.01em">For Him</div>
+    <section style="background:#fff;padding:{{sectionPadY}} 24px;overflow:hidden">
+      <div style="max-width:{{discountMax}};margin:0 auto">
+        <div ref="{{ discountRef }}"
+             style="position:relative;width:100%;aspect-ratio:{{discountAspect}};border-radius:24px;overflow:hidden;transform:scale({{ discountScale }});transform-origin:center;will-change:transform;background:#0e3a2f url('{{discountImg}}') center/cover no-repeat">
         </div>
       </div>
     </section>
@@ -279,6 +274,7 @@ class Component extends DCLogic {
     menuOpen: false,
     openPanel: 0,
     carouselIdx: 0,
+    discountScale: 0.9,
     toast: ''
   };
 
@@ -321,6 +317,17 @@ class Component extends DCLogic {
   componentDidMount() {
     this._onResize = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this._onResize);
+    this._onDiscountScroll = () => {
+      const el = this._discountEl;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let p = (vh - rect.top) / (vh + rect.height);
+      p = Math.max(0, Math.min(1, p));
+      this.setState({ discountScale: 0.9 + p * 0.1 });
+    };
+    window.addEventListener('scroll', this._onDiscountScroll, { passive: true });
+    this._onDiscountScroll();
     this._geoTimer = setTimeout(() => {
       this.setState(s => (s.locState === 'locating' ? { locState: 'denied' } : null));
     }, 1500);
@@ -343,6 +350,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('scroll', this._onDiscountScroll);
     clearTimeout(this._geoTimer);
     clearTimeout(this._toastTimer);
   }
@@ -438,7 +446,11 @@ class Component extends DCLogic {
       sectionPadY: isMobile ? '56px' : '80px',
       pillarsDir: isMobile ? 'column' : 'row',
       branchCols: isMobile ? '1fr' : '1fr 1fr',
-      genderCols: isMobile ? '1fr' : '1fr 1fr',
+      discountMax: isMobile ? '560px' : '1100px',
+      discountAspect: isMobile ? '1080/1350' : '16/7',
+      discountImg: isMobile ? 'assets/discount-promo-mobile.png' : 'assets/discount-promo.png',
+      discountScale: this.state.discountScale,
+      discountRef: (el) => { this._discountEl = el; },
       reviewCols: isMobile ? '1fr' : '1fr 1fr 1fr',
       footerCols: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
 

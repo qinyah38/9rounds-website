@@ -180,18 +180,21 @@
     }
 
     /* ── Gender cards ── */
-    .gender-section { background: #fff; padding: 80px 24px; }
-    .gender-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .gender-card {
-      position: relative; height: 420px; border-radius: 16px;
-      overflow: hidden; background-size: cover; background-position: center;
-      cursor: pointer; transition: transform .25s ease;
+    /* ── Discount promo ── */
+    .discount-section { background: #fff; padding: 80px 24px; overflow: hidden; }
+    .discount-inner { max-width: 560px; margin: 0 auto; }
+    .discount-card {
+      position: relative; width: 100%; aspect-ratio: 1080 / 1350;
+      border-radius: 24px; overflow: hidden;
+      transform: scale(.9); transform-origin: center; will-change: transform;
+      background: #0e3a2f url('project/assets/discount-promo-mobile.png') center / cover no-repeat;
     }
-    .gender-card:hover { transform: scale(1.02); }
-    .gender-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.6), transparent); }
-    .gender-label {
-      position: absolute; left: 24px; bottom: 24px;
-      font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -.01em;
+    @media (min-width: 768px) {
+      .discount-inner { max-width: 1100px; }
+      .discount-card {
+        aspect-ratio: 16 / 7;
+        background-image: url('project/assets/discount-promo.png');
+      }
     }
 
     /* ── How It Works ── */
@@ -371,9 +374,8 @@
       .hamburger { display: flex; }
       .hero-h1 { font-size: 28px; }
       .hero-body { padding: 28px 24px; }
-      .branch-section, .gender-section, .how-section, .plans-section, .reviews-section { padding: 56px 24px; }
+      .branch-section, .discount-section, .how-section, .plans-section, .reviews-section { padding: 56px 24px; }
       .branches-grid { grid-template-columns: 1fr; }
-      .gender-grid { grid-template-columns: 1fr; }
       .how-h2 { font-size: 28px; }
       .how-desktop { display: none; }
       .reviews-grid { grid-template-columns: 1fr; }
@@ -464,17 +466,10 @@
         </div>
       </section>
 
-      <!-- GENDER CARDS -->
-      <section class="gender-section">
-        <div class="gender-grid">
-          <div class="gender-card" style="background-color:#2a1a1a;background-image:url('project/assets/for-her.jpg')">
-            <div class="gender-overlay"></div>
-            <div class="gender-label">For Her</div>
-          </div>
-          <div class="gender-card" style="background-color:#1a1a1a;background-image:url('project/assets/for-him.jpg')">
-            <div class="gender-overlay"></div>
-            <div class="gender-label">For Him</div>
-          </div>
+      <!-- DISCOUNT PROMO -->
+      <section class="discount-section">
+        <div class="discount-inner">
+          <div class="discount-card" id="discountCard"></div>
         </div>
       </section>
 
@@ -618,6 +613,22 @@ document.getElementById('hamburgerBtn').addEventListener('click', () => {
 function closeMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
 }
+
+// ── Discount promo: scroll-driven scale (0.9 → 1.0 as it enters view) ─────────
+(function discountScale() {
+  const card = document.getElementById('discountCard');
+  if (!card) return;
+  function onScroll() {
+    const rect = card.getBoundingClientRect();
+    const vh = window.innerHeight;
+    let p = (vh - rect.top) / (vh + rect.height);
+    p = Math.max(0, Math.min(1, p));
+    card.style.transform = 'scale(' + (0.9 + p * 0.1) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+})();
 
 // ── Marquee ───────────────────────────────────────────────────────────────────
 (function buildMarquee() {
