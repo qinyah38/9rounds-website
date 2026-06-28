@@ -18,8 +18,7 @@
   a { color: inherit; }
   @keyframes spin9 { to { transform: rotate(360deg); } }
   @keyframes marquee9 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .marquee-strip { width: 100vw; margin-left: calc(50% - 50vw); }
-  @media (min-width: 768px) { .marquee-strip { position: relative; left: 50%; margin-left: 0; transform: translateX(-50%); } }
+  .marquee-strip { position: relative; left: 50%; transform: translateX(-50%); width: 100vw; }
   @keyframes toastUp { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>
 </helmet>
@@ -129,23 +128,23 @@
     </section>
 
     <section id="how-it-works" style="background:#fff;padding:{{sectionPadY}} 24px">
-      <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
-        <div class="marquee-strip" style="height:80px;overflow:hidden;margin-bottom:32px">
-          <div style="display:flex;align-items:center;gap:64px;width:max-content;animation:marquee9 25s linear infinite">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
-          </div>
+      <div class="marquee-strip" style="height:80px;overflow:hidden;margin-bottom:32px">
+        <div style="display:flex;align-items:center;gap:64px;width:max-content;animation:marquee9 25s linear infinite">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
         </div>
+      </div>
+      <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
         <h2 style="margin:0;font-size:{{h1Size}};font-weight:700;text-align:center;letter-spacing:-0.01em;color:#1A1A1A">How it works</h2>
         <div style="width:{{accentBarW}};height:3px;background:#E31837;margin-top:14px;border-radius:{{btnRadius}}"></div>
         <sc-if value="{{ howMobile }}" hint-placeholder-val="{{ false }}">
