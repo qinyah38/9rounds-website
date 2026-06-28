@@ -198,13 +198,12 @@
     .how-section { background: #fff; padding: 80px 24px; }
     .how-inner { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
 
-    /* Marquee */
+    /* Marquee — full-bleed band, lifted out of the max-width inner box so it
+       spans edge-to-edge (reaches the real right side) on every viewport */
     .marquee-strip {
-      width: 100vw; margin-left: calc(50% - 50vw);
+      position: relative; left: 50%; transform: translateX(-50%);
+      width: 100vw;
       height: 80px; overflow: hidden; margin-bottom: 32px;
-    }
-    @media (min-width: 768px) {
-      .marquee-strip { position: relative; left: 50%; margin-left: 0; transform: translateX(-50%); }
     }
     .marquee-inner {
       display: flex; align-items: center; gap: 64px;
@@ -481,12 +480,13 @@
 
       <!-- HOW IT WORKS -->
       <section class="how-section" id="how-it-works">
-        <div class="how-inner">
 
-          <!-- Marquee strip -->
-          <div class="marquee-strip">
-            <div class="marquee-inner" id="marqueeInner"></div>
-          </div>
+        <!-- Marquee strip — full-bleed, outside the max-width inner box -->
+        <div class="marquee-strip">
+          <div class="marquee-inner" id="marqueeInner"></div>
+        </div>
+
+        <div class="how-inner">
 
           <h2 class="how-h2">How it works</h2>
           <div class="accent-bar"></div>
