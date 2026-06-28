@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Roboto', sans-serif; color: #1A1A1A; background: #F7F7F7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  input::placeholder { color: #AAAAAA; }
+  @keyframes pop9 { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fade9 { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#F7F7F7">
+
+  <header style="position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #E5E5E5;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+      <img src="assets/9rounds-logo.webp" alt="9Rounds" style="width:36px;height:36px;object-fit:contain;display:block" />
+      <span style="font-weight:700;font-size:16px;letter-spacing:-0.01em;color:#1A1A1A">9ROUNDS</span>
+    </a>
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;text-decoration:none;color:#999;transition:color .15s" style-hover="color:#E31837"><i class="ti ti-x" style="font-size:18px"></i>Exit</a>
+  </header>
+
+  <main style="flex:1;display:flex;justify-content:center;padding:{{pagePad}} 20px 64px">
+    <div style="width:100%;max-width:520px">
+
+      <sc-if value="{{ inFlow }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#fff;border:1px solid #E5E5E5;border-radius:14px;padding:{{cardPad}}">
+
+          <div style="display:flex;align-items:center;width:100%;margin-bottom:8px">
+            <sc-for list="{{ progress }}" as="s" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;{{ s.itemFlex }}">
+                <div style="flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:{{ s.bg }};color:{{ s.color }};border:1.5px solid {{ s.border }};transition:all .2s">
+                  <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}"><i class="ti ti-check" style="font-size:16px"></i></sc-if>
+                  <sc-if value="{{ s.showNum }}" hint-placeholder-val="{{ true }}">{{ s.n }}</sc-if>
+                </div>
+                <sc-if value="{{ s.showLine }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex:1;height:2px;margin:0 6px;background:{{ s.lineColor }};transition:background .2s"></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-size:12px;font-weight:500;color:#999;margin-top:20px">Step {{ stepNum }} of 5</div>
+          <h1 style="margin:4px 0 0;font-size:24px;font-weight:700;letter-spacing:-0.01em;color:#1A1A1A">{{ stepTitle }}</h1>
+          <p style="margin:6px 0 0;font-size:14px;line-height:1.5;color:#666">{{ stepHint }}</p>
+
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:18px" key="{{ stepNum }}">
+
+            <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">First name</label>
+                <input value="{{ firstName }}" onInput="{{ onFirstName }}" placeholder="Your first name" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ firstNameBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;color:#1A1A1A;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                <sc-if value="{{ firstNameError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ firstNameError }}</span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Phone number</label>
+                <div style="display:flex;gap:8px">
+                  <div style="flex:0 0 auto;height:44px;padding:0 14px;display:flex;align-items:center;gap:6px;border:1px solid #E5E5E5;border-radius:6px;background:#F7F7F7;font-size:14px;color:#444">+966</div>
+                  <input value="{{ phone }}" onInput="{{ onPhone }}" inputmode="tel" placeholder="5X XXX XXXX" style="flex:1;height:44px;padding:0 16px;border:1px solid {{ phoneBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;color:#1A1A1A;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+                <sc-if value="{{ phoneError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ phoneError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ genderOptions }}" as="g" hint-placeholder-count="2">
+                  <div onClick="{{ g.onSelect }}" style="min-height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;border:1px solid {{ g.border }};border-radius:8px;cursor:pointer;background:{{ g.bg }};transition:all .15s">
+                    <span style="flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1.5px solid {{ g.ring }};display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border-radius:50%;background:{{ g.dot }}"></span></span>
+                    <span style="font-size:14px;color:#1A1A1A">{{ g.label }}</span>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ genderError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ genderError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">City</label>
+                <div style="position:relative">
+                  <div onClick="{{ toggleCity }}" style="width:100%;height:44px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid {{ cityBorder }};border-radius:6px;background:#fff;cursor:pointer;font-size:14px;color:{{ cityTextColor }};transition:border-color .15s">
+                    <span>{{ cityLabel }}</span><i class="ti ti-chevron-down" style="font-size:18px;color:#999"></i>
+                  </div>
+                  <sc-if value="{{ cityOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:48px;left:0;right:0;z-index:20;background:#fff;border:1px solid #E5E5E5;border-radius:6px;max-height:240px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.1)">
+                      <sc-for list="{{ cityItems }}" as="c" hint-placeholder-count="3">
+                        <div onClick="{{ c.onSelect }}" style="padding:11px 16px;font-size:14px;cursor:pointer;background:{{ c.bg }};color:{{ c.color }}" style-hover="background:#F7F7F7">{{ c.name }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:{{ branchLabelColor }}">Branch</label>
+                <div style="position:relative">
+                  <div onClick="{{ toggleBranch }}" style="width:100%;height:44px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid {{ branchBorder }};border-radius:6px;background:{{ branchBg }};cursor:{{ branchCursor }};font-size:14px;color:{{ branchTextColor }};transition:border-color .15s">
+                    <span>{{ branchLabel }}</span><i class="ti ti-chevron-down" style="font-size:18px;color:#999"></i>
+                  </div>
+                  <sc-if value="{{ branchOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:48px;left:0;right:0;z-index:20;background:#fff;border:1px solid #E5E5E5;border-radius:6px;max-height:240px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.1)">
+                      <sc-for list="{{ branchItems }}" as="b" hint-placeholder-count="3">
+                        <div onClick="{{ b.onSelect }}" style="padding:11px 16px;font-size:14px;cursor:pointer;background:{{ b.bg }};color:{{ b.color }}" style-hover="background:#F7F7F7">{{ b.name }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ locationError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ locationError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Pick your trial date</label>
+                <input type="date" value="{{ date }}" min="{{ minDate }}" max="{{ maxDate }}" onInput="{{ onDate }}" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ dateBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;color:#1A1A1A;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                <span style="font-size:12px;color:#999">Available within the next 30 days.</span>
+                <sc-if value="{{ dateError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ dateError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #E5E5E5;border-radius:10px;overflow:hidden">
+                <sc-for list="{{ summary }}" as="row" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-bottom:{{ row.border }}">
+                    <span style="font-size:13px;color:#999">{{ row.label }}</span>
+                    <span style="font-size:14px;font-weight:500;color:#1A1A1A;text-align:right">{{ row.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin:0;font-size:12px;color:#999;line-height:1.5">No payment required. We'll text a reminder to your phone before your session.</p>
+            </sc-if>
+
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:28px">
+            <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ back }}" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:44px;padding:0 22px;border:1px solid #E5E5E5;border-radius:6px;background:#fff;color:#1A1A1A;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s" style-hover="border-color:#1A1A1A">Back</button>
+            </sc-if>
+            <button onClick="{{ next }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:44px;padding:0 22px;border:none;border-radius:6px;background:#E31837;color:#fff;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:#c1142e">{{ primaryLabel }}</button>
+          </div>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid #E5E5E5;border-radius:14px;padding:40px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;animation:fade9 .35s ease-out">
+          <i class="ti ti-circle-check" style="font-size:56px;color:#E31837;animation:pop9 .4s ease-out"></i>
+          <h1 style="margin:18px 0 0;font-size:24px;font-weight:700;color:#1A1A1A">You're all set!</h1>
+          <p style="margin:8px 0 0;font-size:14px;line-height:1.55;color:#666;max-width:34em">Your free trial at {{ confBranch }} is booked for {{ confDate }}. We'll text a reminder to +966 {{ phone }}.</p>
+          <div style="width:100%;max-width:360px;margin-top:24px;border:1px solid #E5E5E5;border-radius:10px;overflow:hidden">
+            <sc-for list="{{ summary }}" as="row" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:{{ row.border }}">
+                <span style="font-size:13px;color:#999">{{ row.label }}</span>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;text-align:right">{{ row.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <a href="Homepage.dc.html" style="margin-top:24px;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 24px;border:1px solid #E5E5E5;border-radius:6px;background:#F4F4F4;color:#1A1A1A;text-decoration:none;font-size:14px;font-weight:500;transition:all .15s" style-hover="background:#ececec">Go to homepage</a>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:520,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = {
+    step: 0,
+    firstName: '', phone: '', gender: '', city: '', branch: '', date: '',
+    errors: {},
+    openDD: null,
+    done: false,
+    w: (typeof window !== 'undefined' ? window.innerWidth : 1280)
+  };
+
+  stepsMeta = [
+    { title: 'What is your name?', hint: 'Just the basics — no account needed.' },
+    { title: 'Who is training?', hint: 'This helps us assign the right trainer.' },
+    { title: 'Where do you want to train?', hint: 'Pick a city, then your nearest branch.' },
+    { title: 'Choose your trial date', hint: 'Start any day within the next month.' },
+    { title: 'Confirm your trial', hint: 'Check the details and book your session.' }
+  ];
+
+  branchesByCity = {
+    'Riyadh': ['9Rounds Olaya', '9Rounds Al Malqa', '9Rounds Granada'],
+    'Jeddah': ['9Rounds Corniche', '9Rounds Al Salamah'],
+    'Khobar': ['9Rounds Al Khobar']
+  };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  clearErr(key) {
+    if (this.state.errors[key]) {
+      const e = { ...this.state.errors }; delete e[key]; this.setState({ errors: e });
+    }
+  }
+
+  validate() {
+    const s = this.state; const e = {};
+    if (s.step === 0) {
+      if (!s.firstName.trim()) e.firstName = 'This field is required.';
+      const digits = s.phone.replace(/\D/g, '');
+      if (!s.phone.trim()) e.phone = 'This field is required.';
+      else if (digits.length < 7) e.phone = 'Enter a valid phone number.';
+    } else if (s.step === 1) {
+      if (!s.gender) e.gender = 'Please select an option.';
+    } else if (s.step === 2) {
+      if (!s.city || !s.branch) e.location = 'Select a city and branch.';
+    } else if (s.step === 3) {
+      if (!s.date) e.date = 'This field is required.';
+    }
+    return e;
+  }
+
+  next() {
+    const e = this.validate();
+    if (Object.keys(e).length) { this.setState({ errors: e }); return; }
+    if (this.state.step < 4) this.setState({ step: this.state.step + 1, errors: {}, openDD: null });
+    else this.setState({ done: true });
+  }
+  back() { this.setState(s => ({ step: Math.max(0, s.step - 1), errors: {}, openDD: null })); }
+
+  fmtDate(d) {
+    if (!d) return '—';
+    try { return new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (x) { return d; }
+  }
+
+  renderVals() {
+    const s = this.state;
+    const isMobile = s.w < 640;
+    const step = s.step;
+    const RED = '#E31837', DARK = '#1A1A1A', BORDER = '#E5E5E5', MUTE = '#999999';
+
+    // progress
+    const progress = this.stepsMeta.map((_, i) => {
+      const done = i < step, active = i === step;
+      return {
+        n: i + 1,
+        itemFlex: i === 4 ? 'flex:0 0 auto' : 'flex:1',
+        showLine: i < 4,
+        done: done,
+        showNum: !done,
+        bg: done ? DARK : active ? RED : '#fff',
+        color: done || active ? '#fff' : MUTE,
+        border: done ? DARK : active ? RED : BORDER,
+        lineColor: i < step ? RED : BORDER
+      };
+    });
+
+    // gender
+    const genderOptions = ['Male', 'Female'].map(label => {
+      const sel = s.gender === label;
+      return {
+        label,
+        onSelect: () => { this.setState({ gender: label }); this.clearErr('gender'); },
+        bg: sel ? '#FDEAED' : '#fff',
+        border: sel ? RED : BORDER,
+        ring: sel ? RED : '#CCCCCC',
+        dot: sel ? RED : 'transparent'
+      };
+    });
+
+    // city dropdown
+    const cities = Object.keys(this.branchesByCity);
+    const cityItems = cities.map(name => ({
+      name,
+      onSelect: () => this.setState({ city: name, branch: '', openDD: null, errors: {} }),
+      bg: s.city === name ? '#FDEAED' : '#fff',
+      color: s.city === name ? RED : DARK
+    }));
+    const branchList = s.city ? this.branchesByCity[s.city] : [];
+    const branchItems = branchList.map(name => ({
+      name,
+      onSelect: () => this.setState({ branch: name, openDD: null, errors: {} }),
+      bg: s.branch === name ? '#FDEAED' : '#fff',
+      color: s.branch === name ? RED : DARK
+    }));
+
+    // dates
+    const pad = n => String(n).padStart(2, '0');
+    const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    const today = new Date();
+    const max = new Date(); max.setDate(max.getDate() + 30);
+
+    // summary
+    const branchCity = s.branch ? s.city : '';
+    const summaryRows = [
+      { label: 'Name', value: s.firstName || '—' },
+      { label: 'Phone', value: s.phone ? '+966 ' + s.phone : '—' },
+      { label: 'Gender', value: s.gender || '—' },
+      { label: 'Branch', value: s.branch ? s.branch + (branchCity ? ' · ' + branchCity : '') : '—' },
+      { label: 'Date', value: this.fmtDate(s.date) }
+    ];
+    const summary = summaryRows.map((r, i) => ({ ...r, border: i === summaryRows.length - 1 ? 'none' : '1px solid #F4F4F4' }));
+
+    return {
+      inFlow: !s.done,
+      done: s.done,
+      pagePad: isMobile ? '24px' : '48px',
+      cardPad: isMobile ? '24px' : '32px',
+
+      progress,
+      stepNum: step + 1,
+      stepTitle: this.stepsMeta[step].title,
+      stepHint: this.stepsMeta[step].hint,
+
+      isStep0: step === 0, isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4,
+
+      // step 0
+      firstName: s.firstName,
+      phone: s.phone,
+      onFirstName: (e) => { this.setState({ firstName: e.target.value }); this.clearErr('firstName'); },
+      onPhone: (e) => { this.setState({ phone: e.target.value }); this.clearErr('phone'); },
+      firstNameError: s.errors.firstName || '',
+      phoneError: s.errors.phone || '',
+      firstNameBorder: s.errors.firstName ? '#C0392B' : BORDER,
+      phoneBorder: s.errors.phone ? '#C0392B' : BORDER,
+
+      // step 1
+      genderOptions,
+      genderError: s.errors.gender || '',
+
+      // step 2
+      cityOpen: s.openDD === 'city',
+      branchOpen: s.openDD === 'branch',
+      toggleCity: () => this.setState(st => ({ openDD: st.openDD === 'city' ? null : 'city' })),
+      toggleBranch: () => { if (s.city) this.setState(st => ({ openDD: st.openDD === 'branch' ? null : 'branch' })); },
+      cityItems, branchItems,
+      cityLabel: s.city || 'Select city',
+      cityTextColor: s.city ? DARK : '#AAAAAA',
+      cityBorder: (s.errors.location && !s.city) ? '#C0392B' : BORDER,
+      branchLabel: s.branch || (s.city ? 'Select branch' : 'Select a city first'),
+      branchTextColor: s.branch ? DARK : '#AAAAAA',
+      branchBg: s.city ? '#fff' : '#F7F7F7',
+      branchCursor: s.city ? 'pointer' : 'not-allowed',
+      branchBorder: (s.errors.location && s.city && !s.branch) ? '#C0392B' : BORDER,
+      branchLabelColor: s.city ? DARK : MUTE,
+      locationError: s.errors.location || '',
+
+      // step 3
+      date: s.date,
+      minDate: iso(today),
+      maxDate: iso(max),
+      onDate: (e) => { this.setState({ date: e.target.value }); this.clearErr('date'); },
+      dateError: s.errors.date || '',
+      dateBorder: s.errors.date ? '#C0392B' : BORDER,
+
+      // step 4 / confirmation
+      summary,
+      confBranch: s.branch || 'your branch',
+      confDate: this.fmtDate(s.date),
+
+      // nav
+      showBack: step > 0,
+      back: () => this.back(),
+      next: () => this.next(),
+      primaryLabel: step === 4 ? 'Book trial' : 'Continue'
+    };
+  }
+}
+</script>
+</body>
+</html>

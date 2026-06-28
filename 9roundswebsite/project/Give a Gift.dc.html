@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Roboto', sans-serif; color: #1A1A1A; background: #F7F7F7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  input::placeholder { color: #AAAAAA; }
+  @keyframes pop9 { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fade9 { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#F7F7F7">
+
+  <header style="position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #E5E5E5;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px">
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+      <img src="assets/9rounds-logo.webp" alt="9Rounds" style="width:36px;height:36px;object-fit:contain;display:block" />
+      <span style="font-weight:700;font-size:16px;letter-spacing:-0.01em;color:#1A1A1A">9ROUNDS</span>
+    </a>
+    <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;text-decoration:none;color:#999;transition:color .15s" style-hover="color:#E31837"><i class="ti ti-x" style="font-size:18px"></i>Exit</a>
+  </header>
+
+  <main style="flex:1;display:flex;justify-content:center;padding:{{pagePad}} 20px 64px">
+    <div style="width:100%;max-width:{{maxW}}">
+
+      <sc-if value="{{ inFlow }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#fff;border:1px solid #E5E5E5;border-radius:14px;padding:{{cardPad}}">
+
+          <div style="display:flex;align-items:center;width:100%;margin-bottom:8px">
+            <sc-for list="{{ progress }}" as="s" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;{{ s.itemFlex }}">
+                <div style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:{{ s.bg }};color:{{ s.color }};border:1.5px solid {{ s.border }};transition:all .2s">
+                  <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}"><i class="ti ti-check" style="font-size:15px"></i></sc-if>
+                  <sc-if value="{{ s.showNum }}" hint-placeholder-val="{{ true }}">{{ s.n }}</sc-if>
+                </div>
+                <sc-if value="{{ s.showLine }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex:1;height:2px;margin:0 5px;background:{{ s.lineColor }};transition:background .2s"></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-size:12px;font-weight:500;color:#999;margin-top:20px">{{ phaseLabel }} · Step {{ stepNum }} of {{ stepTotal }}</div>
+          <h1 style="margin:4px 0 0;font-size:24px;font-weight:700;letter-spacing:-0.01em;color:#1A1A1A">{{ stepTitle }}</h1>
+          <p style="margin:6px 0 0;font-size:14px;line-height:1.5;color:#666">{{ stepHint }}</p>
+
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:18px">
+
+            <sc-if value="{{ isSenderPhone }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Your phone number</label>
+                <div style="display:flex;gap:8px">
+                  <div style="flex:0 0 auto;height:44px;padding:0 14px;display:flex;align-items:center;border:1px solid #E5E5E5;border-radius:6px;background:#F7F7F7;font-size:14px;color:#444">+966</div>
+                  <input value="{{ sPhone }}" onInput="{{ onSPhone }}" inputmode="tel" placeholder="5X XXX XXXX" style="flex:1;height:44px;padding:0 16px;border:1px solid {{ sPhoneBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+                <sc-if value="{{ sPhoneError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ sPhoneError }}</span></sc-if>
+                <div style="margin-top:6px;display:flex;align-items:flex-start;gap:8px;padding:12px 14px;background:#F7F7F7;border-radius:8px"><i class="ti ti-info-circle" style="font-size:16px;color:#999;margin-top:1px"></i><span style="font-size:12px;line-height:1.5;color:#666">Already a member? Try <b style="color:#1A1A1A">50 123 4567</b> to skip your details.</span></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isSenderProfile }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:14px;flex-wrap:wrap">
+                <div style="flex:1;min-width:140px;display:flex;flex-direction:column;gap:6px">
+                  <label style="font-size:14px;font-weight:500;color:#1A1A1A">First name</label>
+                  <input value="{{ sFirst }}" onInput="{{ onSF }}" placeholder="First name" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ sFirstBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+                <div style="flex:1;min-width:140px;display:flex;flex-direction:column;gap:6px">
+                  <label style="font-size:14px;font-weight:500;color:#1A1A1A">Second name</label>
+                  <input value="{{ sSecond }}" onInput="{{ onSS }}" placeholder="Second name" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ sSecondBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+              </div>
+              <sc-if value="{{ sNameError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B;margin-top:-10px">{{ sNameError }}</span></sc-if>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Email address</label>
+                <input value="{{ sEmail }}" onInput="{{ onSE }}" type="email" placeholder="you@email.com" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ sEmailBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                <span style="font-size:12px;color:#999">We'll send your gift confirmation here.</span>
+                <sc-if value="{{ sEmailError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ sEmailError }}</span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Date of birth</label>
+                <input value="{{ sDob }}" onInput="{{ onSD }}" type="date" max="{{ today }}" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ sDobBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                <sc-if value="{{ sDobError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ sDobError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isReceiverPhone }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Recipient's phone number</label>
+                <div style="display:flex;gap:8px">
+                  <div style="flex:0 0 auto;height:44px;padding:0 14px;display:flex;align-items:center;border:1px solid #E5E5E5;border-radius:6px;background:#F7F7F7;font-size:14px;color:#444">+966</div>
+                  <input value="{{ rPhone }}" onInput="{{ onRPhone }}" inputmode="tel" placeholder="5X XXX XXXX" style="flex:1;height:44px;padding:0 16px;border:1px solid {{ rPhoneBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+                <sc-if value="{{ rPhoneError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ rPhoneError }}</span></sc-if>
+                <div style="margin-top:6px;display:flex;align-items:flex-start;gap:8px;padding:12px 14px;background:#F7F7F7;border-radius:8px"><i class="ti ti-info-circle" style="font-size:16px;color:#999;margin-top:1px"></i><span style="font-size:12px;line-height:1.5;color:#666">If they're already a member (try <b style="color:#1A1A1A">59 876 5432</b>) we only need their name.</span></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isReceiverProfile }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:14px;flex-wrap:wrap">
+                <div style="flex:1;min-width:140px;display:flex;flex-direction:column;gap:6px">
+                  <label style="font-size:14px;font-weight:500;color:#1A1A1A">First name</label>
+                  <input value="{{ rFirst }}" onInput="{{ onRF }}" placeholder="First name" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ rFirstBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+                <div style="flex:1;min-width:140px;display:flex;flex-direction:column;gap:6px">
+                  <label style="font-size:14px;font-weight:500;color:#1A1A1A">Second name</label>
+                  <input value="{{ rSecond }}" onInput="{{ onRS }}" placeholder="Second name" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ rSecondBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                </div>
+              </div>
+              <sc-if value="{{ rNameError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B;margin-top:-10px">{{ rNameError }}</span></sc-if>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Email address</label>
+                <input value="{{ rEmail }}" onInput="{{ onRE }}" type="email" placeholder="recipient@email.com" style="width:100%;height:44px;padding:0 16px;border:1px solid {{ rEmailBorder }};border-radius:6px;background:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+                <sc-if value="{{ rEmailError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ rEmailError }}</span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">Gender</label>
+                <div style="display:flex;gap:10px">
+                  <sc-for list="{{ genderOptions }}" as="g" hint-placeholder-count="2">
+                    <div onClick="{{ g.onSelect }}" style="flex:1;min-height:48px;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid {{ g.border }};border-radius:8px;cursor:pointer;background:{{ g.bg }};transition:all .15s">
+                      <span style="flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:1.5px solid {{ g.ring }};display:flex;align-items:center;justify-content:center"><span style="width:9px;height:9px;border-radius:50%;background:{{ g.dot }}"></span></span>
+                      <span style="font-size:14px;color:#1A1A1A">{{ g.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:#1A1A1A">City</label>
+                <div style="position:relative">
+                  <div onClick="{{ toggleRCity }}" style="width:100%;height:44px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid {{ rCityBorder }};border-radius:6px;background:#fff;cursor:pointer;font-size:14px;color:{{ rCityTextColor }}">
+                    <span>{{ rCityLabel }}</span><i class="ti ti-chevron-down" style="font-size:18px;color:#999"></i>
+                  </div>
+                  <sc-if value="{{ rCityOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:48px;left:0;right:0;z-index:20;background:#fff;border:1px solid #E5E5E5;border-radius:6px;max-height:240px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.1)">
+                      <sc-for list="{{ rCityItems }}" as="c" hint-placeholder-count="3">
+                        <div onClick="{{ c.onSelect }}" style="padding:11px 16px;font-size:14px;cursor:pointer;background:{{ c.bg }};color:{{ c.color }}" style-hover="background:#F7F7F7">{{ c.name }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label style="font-size:14px;font-weight:500;color:{{ rBranchLabelColor }}">Branch</label>
+                <div style="position:relative">
+                  <div onClick="{{ toggleRBranch }}" style="width:100%;height:44px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border:1px solid {{ rBranchBorder }};border-radius:6px;background:{{ rBranchBg }};cursor:{{ rBranchCursor }};font-size:14px;color:{{ rBranchTextColor }}">
+                    <span>{{ rBranchLabel }}</span><i class="ti ti-chevron-down" style="font-size:18px;color:#999"></i>
+                  </div>
+                  <sc-if value="{{ rBranchOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:48px;left:0;right:0;z-index:20;background:#fff;border:1px solid #E5E5E5;border-radius:6px;max-height:240px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.1)">
+                      <sc-for list="{{ rBranchItems }}" as="b" hint-placeholder-count="3">
+                        <div onClick="{{ b.onSelect }}" style="padding:11px 16px;font-size:14px;cursor:pointer;background:{{ b.bg }};color:{{ b.color }}" style-hover="background:#F7F7F7">{{ b.name }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ rLocError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ rLocError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:{{ planCols }};gap:14px">
+                <sc-for list="{{ planCards }}" as="p" hint-placeholder-count="5">
+                  <div onClick="{{ p.onSelect }}" style="border:{{ p.border }};border-radius:10px;padding:20px;cursor:pointer;background:#fff;display:flex;flex-direction:column;gap:10px;transition:border-color .15s">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                      <span style="font-size:18px;font-weight:500;color:#1A1A1A">{{ p.name }}</span>
+                      <span style="flex:0 0 auto;font-size:11px;font-weight:500;color:#444;background:#F4F4F4;border-radius:100px;padding:4px 10px">{{ p.duration }}</span>
+                    </div>
+                    <div style="display:flex;align-items:baseline;gap:8px">
+                      <span style="font-size:28px;font-weight:700;color:#1A1A1A">{{ p.priceStr }}</span>
+                      <span style="font-size:16px;color:#999;text-decoration:line-through">{{ p.originalStr }}</span>
+                    </div>
+                    <span style="font-size:12px;color:#999">{{ p.vat }}</span>
+                    <div style="display:flex;flex-direction:column;gap:6px;margin-top:2px;padding-top:12px;border-top:1px solid #F4F4F4">
+                      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#444"><span style="flex:0 0 auto;font-size:11px;font-weight:700;color:#3DB39E;background:#E7F6F3;border-radius:5px;padding:3px 8px">tabby</span>{{ p.tabbyStr }}</div>
+                      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#444"><span style="flex:0 0 auto;font-size:11px;font-weight:700;color:#C2487A;background:#FBEAF1;border-radius:5px;padding:3px 8px">tamara</span>{{ p.tamaraStr }}</div>
+                    </div>
+                    <button onClick="{{ p.onSelect }}" style="margin-top:6px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:40px;border:1px solid {{ p.ctaBorder }};border-radius:6px;background:{{ p.ctaBg }};color:{{ p.ctaColor }};font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s">{{ p.ctaLabel }}</button>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ planError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ planError }}</span></sc-if>
+            </sc-if>
+
+            <sc-if value="{{ isPayment }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ paymentOptions }}" as="m" hint-placeholder-count="3">
+                  <div onClick="{{ m.onSelect }}" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid {{ m.border }};border-radius:8px;cursor:pointer;background:{{ m.bg }};transition:all .15s">
+                    <span style="flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1.5px solid {{ m.ring }};display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border-radius:50%;background:{{ m.dot }}"></span></span>
+                    <div style="flex:1;display:flex;flex-direction:column;gap:2px">
+                      <span style="font-size:14px;font-weight:500;color:#1A1A1A">{{ m.label }}</span>
+                      <span style="font-size:12px;color:#999">{{ m.sub }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ paymentError }}" hint-placeholder-val=""><span style="font-size:12px;color:#C0392B">{{ paymentError }}</span></sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isConfirm }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #E5E5E5;border-radius:10px;overflow:hidden">
+                <sc-for list="{{ summary }}" as="row" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-bottom:{{ row.border }}">
+                    <span style="font-size:13px;color:#999">{{ row.label }}</span>
+                    <span style="font-size:14px;font-weight:500;color:#1A1A1A;text-align:right">{{ row.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;background:#FDEAED;border-radius:10px">
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A">Total today</span>
+                <span style="font-size:22px;font-weight:700;color:#E31837">{{ totalStr }}</span>
+              </div>
+              <p style="margin:0;font-size:12px;color:#999;line-height:1.5">All prices inclusive of VAT. A confirmation email will be sent to you, and {{ rFirstName }} will be notified of the gift.</p>
+            </sc-if>
+
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:28px">
+            <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ back }}" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:44px;padding:0 22px;border:1px solid #E5E5E5;border-radius:6px;background:#fff;color:#1A1A1A;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s" style-hover="border-color:#1A1A1A">Back</button>
+            </sc-if>
+            <button onClick="{{ next }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:44px;padding:0 22px;border:none;border-radius:6px;background:#E31837;color:#fff;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:#c1142e">{{ primaryLabel }}</button>
+          </div>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:480px;margin:0 auto;background:#fff;border:1px solid #E5E5E5;border-radius:14px;padding:40px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;animation:fade9 .35s ease-out">
+          <i class="ti ti-gift" style="font-size:56px;color:#E31837;animation:pop9 .4s ease-out"></i>
+          <h1 style="margin:18px 0 0;font-size:24px;font-weight:700;color:#1A1A1A">Your gift is on its way!</h1>
+          <p style="margin:8px 0 0;font-size:14px;line-height:1.55;color:#666;max-width:34em">{{ rFirstName }} will receive a <b style="color:#1A1A1A">{{ planName }}</b> membership. We've let them know it's from you.</p>
+          <div style="width:100%;margin-top:24px;border:1px solid #E5E5E5;border-radius:10px;overflow:hidden">
+            <sc-for list="{{ summary }}" as="row" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:{{ row.border }}">
+                <span style="font-size:13px;color:#999">{{ row.label }}</span>
+                <span style="font-size:14px;font-weight:500;color:#1A1A1A;text-align:right">{{ row.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <p style="margin:16px 0 0;font-size:13px;color:#999">A confirmation email has been sent to {{ confEmail }}.</p>
+          <a href="Homepage.dc.html" style="margin-top:20px;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 24px;border:1px solid #E5E5E5;border-radius:6px;background:#F4F4F4;color:#1A1A1A;text-decoration:none;font-size:14px;font-weight:500;transition:all .15s" style-hover="background:#ececec">Go to homepage</a>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = {
+    step: 0,
+    sPhone: '', sExisting: false, sFirst: '', sSecond: '', sEmail: '', sDob: '',
+    rPhone: '', rExisting: false, rFirst: '', rSecond: '', rEmail: '', rGender: '', rCity: '', rBranch: '',
+    planId: '', payment: '',
+    errors: {}, openDD: null, done: false,
+    w: (typeof window !== 'undefined' ? window.innerWidth : 1280)
+  };
+
+  senderAccounts = {
+    '501234567': { sFirst: 'Ahmed', sSecond: 'Al-Saud', sEmail: 'ahmed.alsaud@email.com', sDob: '1992-04-18' }
+  };
+  receiverAccounts = {
+    '598765432': { rFirst: 'Layla', rSecond: 'Hassan' }
+  };
+
+  branchesByCity = {
+    'Riyadh': ['9Rounds Olaya', '9Rounds Al Malqa', '9Rounds Granada'],
+    'Jeddah': ['9Rounds Corniche', '9Rounds Al Salamah'],
+    'Khobar': ['9Rounds Al Khobar']
+  };
+
+  plans = [
+    { id: 'real-change', name: 'One Month Real Change', duration: '1 Month', price: 390, original: 596, tabby: '97.50', tamara: '97.50', tamaraMonthly: false },
+    { id: 'qualification', name: 'Qualification Stage', duration: '100 Days', price: 850, original: 1790, tabby: '212.50', tamara: '212.50', tamaraMonthly: false },
+    { id: 'champions', name: "Champions' Path", duration: '190 Days', price: 1560, original: 2950, tabby: '390', tamara: '390', tamaraMonthly: false },
+    { id: 'trophy', name: 'Lift the Trophy', duration: '370 Days', price: 2760, original: 4950, tabby: '690', tamara: '269.10', tamaraMonthly: true },
+    { id: 'summer', name: 'Summer Package', duration: '12 Months', price: 2760, original: 4950, tabby: '690', tamara: '269.10', tamaraMonthly: true }
+  ];
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  keys() {
+    const k = ['senderPhone'];
+    if (!this.state.sExisting) k.push('senderProfile');
+    k.push('receiverPhone');
+    if (!this.state.rExisting) k.push('receiverProfile');
+    k.push('plan', 'payment', 'confirm');
+    return k;
+  }
+
+  clearErr(key) { if (this.state.errors[key]) { const e = { ...this.state.errors }; delete e[key]; this.setState({ errors: e }); } }
+  fmt(n) { return n.toLocaleString('en-US'); }
+  getPlan() { return this.plans.find(p => p.id === this.state.planId); }
+
+  validate(key) {
+    const s = this.state; const e = {};
+    if (key === 'senderPhone') {
+      const d = s.sPhone.replace(/\D/g, '');
+      if (!s.sPhone.trim()) e.sPhone = 'This field is required.';
+      else if (d.length < 7) e.sPhone = 'Enter a valid phone number.';
+    } else if (key === 'senderProfile') {
+      if (!s.sFirst.trim() || !s.sSecond.trim()) e.sName = 'Both names are required.';
+      if (!s.sEmail.trim()) e.sEmail = 'This field is required.';
+      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.sEmail)) e.sEmail = 'Enter a valid email address.';
+      if (!s.sDob) e.sDob = 'Date of birth is required.';
+    } else if (key === 'receiverPhone') {
+      const d = s.rPhone.replace(/\D/g, '');
+      if (!s.rPhone.trim()) e.rPhone = 'This field is required.';
+      else if (d.length < 7) e.rPhone = 'Enter a valid phone number.';
+    } else if (key === 'receiverProfile') {
+      if (!s.rFirst.trim() || !s.rSecond.trim()) e.rName = 'Both names are required.';
+      if (!s.rEmail.trim()) e.rEmail = 'This field is required.';
+      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.rEmail)) e.rEmail = 'Enter a valid email address.';
+      if (!s.rCity || !s.rBranch) e.rLoc = 'Select a city and branch.';
+    } else if (key === 'plan') {
+      if (!s.planId) e.plan = 'Choose a plan to continue.';
+    } else if (key === 'payment') {
+      if (!s.payment) e.payment = 'Select a payment method.';
+    }
+    return e;
+  }
+
+  next() {
+    const keys = this.keys();
+    const key = keys[this.state.step];
+    const e = this.validate(key);
+    if (Object.keys(e).length) { this.setState({ errors: e }); return; }
+
+    if (key === 'senderPhone') {
+      const acc = this.senderAccounts[this.state.sPhone.replace(/\D/g, '')];
+      this.setState(acc ? { sExisting: true, ...acc, errors: {}, openDD: null, step: 1 } : { sExisting: false, errors: {}, openDD: null, step: 1 });
+      return;
+    }
+    if (key === 'receiverPhone') {
+      const acc = this.receiverAccounts[this.state.rPhone.replace(/\D/g, '')];
+      this.setState(acc ? { rExisting: true, ...acc, errors: {}, openDD: null, step: this.state.step + 1 } : { rExisting: false, errors: {}, openDD: null, step: this.state.step + 1 });
+      return;
+    }
+    if (key === 'confirm') { this.setState({ done: true }); return; }
+    this.setState({ step: this.state.step + 1, errors: {}, openDD: null });
+  }
+  back() { this.setState(s => ({ step: Math.max(0, s.step - 1), errors: {}, openDD: null })); }
+
+  renderVals() {
+    const s = this.state;
+    const isMobile = s.w < 760;
+    const keys = this.keys();
+    const key = keys[s.step];
+    const RED = '#E31837', DARK = '#1A1A1A', BORDER = '#E5E5E5', MUTE = '#999999';
+
+    const titles = {
+      senderPhone: { t: 'Your phone number', h: "Let's start with you — the gift giver.", phase: 'You' },
+      senderProfile: { t: 'Your details', h: 'So we know who the gift is from.', phase: 'You' },
+      receiverPhone: { t: "Recipient's phone", h: "Who are you gifting a membership to?", phase: 'Recipient' },
+      receiverProfile: { t: 'Recipient details', h: 'A few details to set up their membership.', phase: 'Recipient' },
+      plan: { t: 'Choose a plan to gift', h: 'Pick the membership they will receive.', phase: 'Plan & payment' },
+      payment: { t: 'How would you like to pay?', h: 'Card, or split it interest-free.', phase: 'Plan & payment' },
+      confirm: { t: 'Review your gift', h: 'Confirm the details to send it.', phase: 'Plan & payment' }
+    };
+
+    const progress = keys.map((_, i) => {
+      const done = i < s.step, active = i === s.step;
+      return { n: i + 1, itemFlex: i === keys.length - 1 ? 'flex:0 0 auto' : 'flex:1', showLine: i < keys.length - 1,
+        done, showNum: !done, bg: done ? DARK : active ? RED : '#fff', color: done || active ? '#fff' : MUTE,
+        border: done ? DARK : active ? RED : BORDER, lineColor: i < s.step ? RED : BORDER };
+    });
+
+    const genderOptions = ['Male', 'Female'].map(label => {
+      const sel = s.rGender === label;
+      return { label, onSelect: () => this.setState({ rGender: label }),
+        bg: sel ? '#FDEAED' : '#fff', border: sel ? RED : BORDER, ring: sel ? RED : '#CCCCCC', dot: sel ? RED : 'transparent' };
+    });
+
+    const rCityItems = Object.keys(this.branchesByCity).map(name => ({
+      name, onSelect: () => this.setState({ rCity: name, rBranch: '', openDD: null, errors: {} }),
+      bg: s.rCity === name ? '#FDEAED' : '#fff', color: s.rCity === name ? RED : DARK
+    }));
+    const rBranchList = s.rCity ? this.branchesByCity[s.rCity] : [];
+    const rBranchItems = rBranchList.map(name => ({
+      name, onSelect: () => this.setState({ rBranch: name, openDD: null, errors: {} }),
+      bg: s.rBranch === name ? '#FDEAED' : '#fff', color: s.rBranch === name ? RED : DARK
+    }));
+
+    const planCards = this.plans.map(p => {
+      const sel = s.planId === p.id;
+      return { name: p.name, duration: p.duration, priceStr: 'SAR ' + this.fmt(p.price), originalStr: 'SAR ' + this.fmt(p.original),
+        vat: 'Inclusive of VAT', tabbyStr: '4 payments of SAR ' + p.tabby,
+        tamaraStr: p.tamaraMonthly ? 'SAR ' + p.tamara + ' / month' : '4 payments of SAR ' + p.tamara,
+        onSelect: () => this.setState({ planId: p.id, errors: {} }),
+        border: sel ? '2px solid #E31837' : '1px solid #E5E5E5',
+        ctaBg: sel ? '#E31837' : '#fff', ctaColor: sel ? '#fff' : '#1A1A1A', ctaBorder: sel ? '#E31837' : '#1A1A1A',
+        ctaLabel: sel ? 'Selected' : 'Select' };
+    });
+
+    const plan = this.getPlan();
+    const paymentOptions = [
+      { key: 'Card', label: 'Credit / debit card', sub: plan ? 'One payment of SAR ' + this.fmt(plan.price) : 'Pay in full' },
+      { key: 'Tabby', label: 'Tabby — 4 interest-free payments', sub: plan ? '4 × SAR ' + plan.tabby : 'Split in 4' },
+      { key: 'Tamara', label: 'Tamara — Sharia-compliant', sub: plan ? (plan.tamaraMonthly ? 'SAR ' + plan.tamara + ' / month' : '4 × SAR ' + plan.tamara) : 'Split it' }
+    ].map(m => {
+      const sel = s.payment === m.key;
+      return { ...m, onSelect: () => { this.setState({ payment: m.key }); this.clearErr('payment'); },
+        bg: sel ? '#FDEAED' : '#fff', border: sel ? RED : BORDER, ring: sel ? RED : '#CCCCCC', dot: sel ? RED : 'transparent' };
+    });
+
+    const fromVal = (s.sFirst || s.sSecond) ? (s.sFirst + ' ' + s.sSecond).trim() : ('+966 ' + (s.sPhone || '—'));
+    const toVal = (s.rFirst || s.rSecond) ? (s.rFirst + ' ' + s.rSecond).trim() : ('+966 ' + (s.rPhone || '—'));
+    const rows = [
+      { label: 'From', value: fromVal },
+      { label: 'To', value: toVal },
+      { label: 'Recipient branch', value: s.rBranch ? s.rBranch + (s.rCity ? ' · ' + s.rCity : '') : (s.rExisting ? 'Their saved branch' : '—') },
+      { label: 'Plan', value: plan ? plan.name + ' · ' + plan.duration : '—' },
+      { label: 'Payment', value: s.payment || '—' }
+    ];
+    const summary = rows.map((r, i) => ({ ...r, border: i === rows.length - 1 ? 'none' : '1px solid #F4F4F4' }));
+
+    const pad = n => String(n).padStart(2, '0');
+    const today = new Date();
+    const todayIso = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+
+    return {
+      inFlow: !s.done, done: s.done,
+      pagePad: isMobile ? '24px' : '48px', cardPad: isMobile ? '24px' : '32px',
+      maxW: (key === 'plan') ? '900px' : '520px', planCols: isMobile ? '1fr' : '1fr 1fr',
+
+      progress, phaseLabel: titles[key].phase, stepNum: s.step + 1, stepTotal: keys.length,
+      stepTitle: titles[key].t, stepHint: titles[key].h,
+
+      isSenderPhone: key === 'senderPhone', isSenderProfile: key === 'senderProfile',
+      isReceiverPhone: key === 'receiverPhone', isReceiverProfile: key === 'receiverProfile',
+      isPlan: key === 'plan', isPayment: key === 'payment', isConfirm: key === 'confirm',
+      today: todayIso,
+
+      // sender
+      sPhone: s.sPhone, onSPhone: (e) => { this.setState({ sPhone: e.target.value }); this.clearErr('sPhone'); },
+      sPhoneError: s.errors.sPhone || '', sPhoneBorder: s.errors.sPhone ? '#C0392B' : BORDER,
+      sFirst: s.sFirst, sSecond: s.sSecond, sEmail: s.sEmail, sDob: s.sDob,
+      onSF: (e) => { this.setState({ sFirst: e.target.value }); this.clearErr('sName'); },
+      onSS: (e) => { this.setState({ sSecond: e.target.value }); this.clearErr('sName'); },
+      onSE: (e) => { this.setState({ sEmail: e.target.value }); this.clearErr('sEmail'); },
+      onSD: (e) => { this.setState({ sDob: e.target.value }); this.clearErr('sDob'); },
+      sNameError: s.errors.sName || '', sEmailError: s.errors.sEmail || '', sDobError: s.errors.sDob || '',
+      sFirstBorder: s.errors.sName && !s.sFirst ? '#C0392B' : BORDER, sSecondBorder: s.errors.sName && !s.sSecond ? '#C0392B' : BORDER,
+      sEmailBorder: s.errors.sEmail ? '#C0392B' : BORDER, sDobBorder: s.errors.sDob ? '#C0392B' : BORDER,
+
+      // receiver
+      rPhone: s.rPhone, onRPhone: (e) => { this.setState({ rPhone: e.target.value }); this.clearErr('rPhone'); },
+      rPhoneError: s.errors.rPhone || '', rPhoneBorder: s.errors.rPhone ? '#C0392B' : BORDER,
+      rFirst: s.rFirst, rSecond: s.rSecond, rEmail: s.rEmail,
+      onRF: (e) => { this.setState({ rFirst: e.target.value }); this.clearErr('rName'); },
+      onRS: (e) => { this.setState({ rSecond: e.target.value }); this.clearErr('rName'); },
+      onRE: (e) => { this.setState({ rEmail: e.target.value }); this.clearErr('rEmail'); },
+      rNameError: s.errors.rName || '', rEmailError: s.errors.rEmail || '',
+      rFirstBorder: s.errors.rName && !s.rFirst ? '#C0392B' : BORDER, rSecondBorder: s.errors.rName && !s.rSecond ? '#C0392B' : BORDER,
+      rEmailBorder: s.errors.rEmail ? '#C0392B' : BORDER,
+      genderOptions,
+      rCityOpen: s.openDD === 'rcity', rBranchOpen: s.openDD === 'rbranch',
+      toggleRCity: () => this.setState(st => ({ openDD: st.openDD === 'rcity' ? null : 'rcity' })),
+      toggleRBranch: () => { if (s.rCity) this.setState(st => ({ openDD: st.openDD === 'rbranch' ? null : 'rbranch' })); },
+      rCityItems, rBranchItems,
+      rCityLabel: s.rCity || 'Select city', rCityTextColor: s.rCity ? DARK : '#AAAAAA',
+      rCityBorder: (s.errors.rLoc && !s.rCity) ? '#C0392B' : BORDER,
+      rBranchLabel: s.rBranch || (s.rCity ? 'Select branch' : 'Select a city first'),
+      rBranchTextColor: s.rBranch ? DARK : '#AAAAAA', rBranchBg: s.rCity ? '#fff' : '#F7F7F7',
+      rBranchCursor: s.rCity ? 'pointer' : 'not-allowed',
+      rBranchBorder: (s.errors.rLoc && s.rCity && !s.rBranch) ? '#C0392B' : BORDER,
+      rBranchLabelColor: s.rCity ? DARK : MUTE, rLocError: s.errors.rLoc || '',
+
+      // plan / payment
+      planCards, planError: s.errors.plan || '', paymentOptions, paymentError: s.errors.payment || '',
+      planName: plan ? plan.name : '—',
+
+      // confirm / done
+      summary, totalStr: plan ? 'SAR ' + this.fmt(plan.price) : '—',
+      rFirstName: s.rFirst || 'Your recipient', confEmail: s.sEmail || 'your inbox',
+
+      showBack: s.step > 0, back: () => this.back(), next: () => this.next(),
+      primaryLabel: key === 'confirm' ? 'Send gift' : 'Continue'
+    };
+  }
+}
+</script>
+</body>
+</html>

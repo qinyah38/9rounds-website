@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Roboto', sans-serif; color: #1A1A1A; background: #fff; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  @keyframes spin9 { to { transform: rotate(360deg); } }
+  @keyframes marquee9 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-strip { width: 100vw; margin-left: calc(50% - 50vw); }
+  @media (min-width: 768px) { .marquee-strip { position: relative; left: 50%; margin-left: 0; transform: translateX(-50%); } }
+  @keyframes toastUp { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#fff">
+
+  <header style="position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #E5E5E5;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px">
+    <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+      <img src="assets/9rounds-logo.webp" alt="9Rounds" style="width:36px;height:36px;object-fit:contain;display:block" />
+      <span style="font-weight:700;font-size:16px;letter-spacing:-0.01em;color:#1A1A1A">9ROUNDS</span>
+    </a>
+    <nav style="display:{{navDisplay}};align-items:center;gap:32px">
+      <a href="#plans" style="font-size:14px;font-weight:500;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837">Plans</a>
+      <a href="#branches" style="font-size:14px;font-weight:500;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837">Branches</a>
+      <a href="Shop.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837">Shop</a>
+      <a href="Give a Gift.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837">Gift cards</a>
+      <a href="Corporate Discount.dc.html" style="font-size:14px;font-weight:500;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837">Corporate</a>
+      <a href="#account" aria-label="Account" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:6px;text-decoration:none;color:#1A1A1A;transition:color .15s" style-hover="color:#E31837"><i class="ti ti-user" style="font-size:22px"></i></a>
+    </nav>
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" style="display:{{hamburgerDisplay}};align-items:center;justify-content:center;width:40px;height:40px;border:none;background:transparent;cursor:pointer;color:#1A1A1A;padding:0">
+      <i class="ti ti-menu-2" style="font-size:26px"></i>
+    </button>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;top:64px;z-index:49;background:#fff;border-bottom:1px solid #E5E5E5;display:flex;flex-direction:column;padding:8px 24px 16px">
+      <a href="#plans" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;border-bottom:1px solid #F4F4F4">Plans</a>
+      <a href="#branches" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;border-bottom:1px solid #F4F4F4">Branches</a>
+      <a href="Shop.dc.html" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;border-bottom:1px solid #F4F4F4">Shop</a>
+      <a href="Give a Gift.dc.html" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;border-bottom:1px solid #F4F4F4">Gift cards</a>
+      <a href="Corporate Discount.dc.html" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;border-bottom:1px solid #F4F4F4">Corporate</a>
+      <a href="#account" onClick="{{ closeMenu }}" style="padding:12px 0;font-size:15px;font-weight:500;text-decoration:none;color:#1A1A1A;display:flex;align-items:center;gap:8px"><i class="ti ti-user" style="font-size:20px"></i>Account</a>
+    </div>
+  </sc-if>
+
+  <main style="flex:1">
+
+    <section style="position:fixed;top:0;left:0;right:0;height:calc(100vh - 80px);z-index:1;overflow:hidden;border-radius:0 0 32px 32px;display:flex;flex-direction:column;justify-content:{{heroJustify}};align-items:{{heroAlign}};text-align:{{heroTextAlign}};background-image:{{heroBg}};background-size:cover;background-position:{{heroBgPos}};background-repeat:no-repeat">
+      <div style="width:100%;max-width:1200px;margin:0 auto;padding:{{heroCardPad}} 24px;display:flex;flex-direction:column;align-items:{{heroAlign}}">
+        <div style="position:relative;max-width:{{heroContentMax}};margin:{{heroContentMargin}};display:flex;flex-direction:column;align-items:{{heroAlign}}">
+          <h1 style="margin:0;font-size:{{heroH1Size}};font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#fff;text-wrap:balance">Maximum burn in just 30 minutes</h1>
+          <p style="margin:16px 0 0;font-size:18px;font-weight:400;line-height:1.5;color:rgba(255,255,255,.85);max-width:30em">Because you don't need more time — you need the right workout.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;justify-content:{{heroBtnJustify}}">
+            <button onClick="{{ goFreeTrial }}" style="display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:40px;padding:0 22px;border:none;border-radius:{{btnRadius}};background:#E31837;color:#fff;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:#c1142e">Free trial</button>
+            <button onClick="{{ goSubscribe }}" style="display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:40px;padding:0 22px;border:1px solid #fff;border-radius:{{btnRadius}};background:transparent;color:#fff;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s" style-hover="background:#fff;color:#1A1A1A">Subscribe now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="position:relative;z-index:10;margin-top:calc(100vh - 124px);border-radius:20px 20px 0 0;overflow:hidden;background:#fff;box-shadow:0 -24px 48px rgba(0,0,0,.12)">
+      <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:4px;border-radius:100px;background:rgba(0,0,0,.18);z-index:2"></div>
+
+    <section id="branches" style="background:#F7F7F7;padding:64px 24px">
+      <div style="max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
+        <h2 style="margin:0;font-size:24px;font-weight:500;text-align:center;color:#1A1A1A">Find a branch near you</h2>
+
+        <sc-if value="{{ locating }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:10px;margin-top:24px;color:#666;font-size:14px">
+            <span style="display:inline-block;width:18px;height:18px;border:2px solid #E5E5E5;border-top-color:#E31837;border-radius:50%;animation:spin9 .7s linear infinite"></span>
+            Locating you…
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;margin-top:24px">
+            <div style="position:relative;width:100%">
+              <input value="{{ query }}" onInput="{{ onQueryInput }}" onKeyDown="{{ onQueryKey }}" placeholder="Search by city or zip code" style="width:100%;height:44px;padding:0 44px 0 16px;border:1px solid #E5E5E5;border-radius:{{btnRadius}};background:#fff;font-family:inherit;font-size:14px;color:#1A1A1A;outline:none;transition:border-color .15s" style-focus="border-color:#E31837" />
+              <button onClick="{{ doSearch }}" aria-label="Search" style="position:absolute;right:6px;top:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#999;cursor:pointer" style-hover="color:#E31837"><i class="ti ti-search" style="font-size:20px"></i></button>
+            </div>
+            <sc-if value="{{ noteText }}" hint-placeholder-val="">
+              <p style="margin:12px 0 0;font-size:12px;color:#999;display:flex;align-items:center;gap:6px"><i class="ti ti-map-pin" style="font-size:14px;color:#E31837"></i>{{ noteText }}</p>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;margin-top:24px;display:grid;grid-template-columns:{{branchCols}};gap:16px">
+            <sc-for list="{{ branches }}" as="b" hint-placeholder-count="2">
+              <div style="background:#fff;border:1px solid #E5E5E5;border-radius:{{cardRadius}};padding:20px;display:flex;flex-direction:column;gap:6px">
+                <div style="font-size:18px;font-weight:500;color:#1A1A1A">{{ b.name }}</div>
+                <div style="font-size:12px;font-weight:500;color:{{cityColor}};text-transform:uppercase;letter-spacing:0.04em">{{ b.city }}</div>
+                <div style="font-size:14px;color:#444;line-height:1.45">{{ b.address }}</div>
+                <div style="font-size:12px;color:#999;display:flex;align-items:center;gap:6px;margin-top:2px"><i class="ti ti-clock" style="font-size:14px"></i>{{ b.hours }}</div>
+                <button onClick="{{ b.onView }}" style="margin-top:12px;align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:34px;padding:0 16px;border:1px solid #1A1A1A;border-radius:{{btnRadius}};background:transparent;color:#1A1A1A;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s" style-hover="background:#1A1A1A;color:#fff">View branch</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;margin-top:24px;background:#fff;border:1px dashed #E5E5E5;border-radius:{{cardRadius}};padding:32px;text-align:center;color:#666;font-size:14px">No branches found in that area. Try a different city.</div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section style="background:#fff;padding:{{sectionPadY}} 24px">
+      <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:{{genderCols}};gap:8px">
+        <div style="position:relative;height:420px;border-radius:16px;overflow:hidden;background:#2a1a1a url('assets/for-her.jpg');background-size:cover;background-position:center;cursor:pointer;transition:transform .25s ease" style-hover="transform:scale(1.02)">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent)"></div>
+          <div style="position:absolute;left:24px;bottom:24px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.01em">For Her</div>
+        </div>
+        <div style="position:relative;height:420px;border-radius:16px;overflow:hidden;background:#1a1a1a url('assets/for-him.jpg');background-size:cover;background-position:center;cursor:pointer;transition:transform .25s ease" style-hover="transform:scale(1.02)">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent)"></div>
+          <div style="position:absolute;left:24px;bottom:24px;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.01em">For Him</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" style="background:#fff;padding:{{sectionPadY}} 24px">
+      <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
+        <div class="marquee-strip" style="height:80px;overflow:hidden;margin-bottom:32px">
+          <div style="display:flex;align-items:center;gap:64px;width:max-content;animation:marquee9 25s linear infinite">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+            <img src="uploads/9round-background.webp" style="height:60px;width:auto" alt="9ROUND">
+          </div>
+        </div>
+        <h2 style="margin:0;font-size:{{h1Size}};font-weight:700;text-align:center;letter-spacing:-0.01em;color:#1A1A1A">How it works</h2>
+        <div style="width:{{accentBarW}};height:3px;background:#E31837;margin-top:14px;border-radius:{{btnRadius}}"></div>
+        <sc-if value="{{ howMobile }}" hint-placeholder-val="{{ false }}">
+          <div onScroll="{{ onCarouselScroll }}" style="width:100%;margin-top:32px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:0 0 0 24px;margin-left:-24px;margin-right:-24px;-webkit-overflow-scrolling:touch">
+            <sc-for list="{{ howCards }}" as="c" hint-placeholder-count="3">
+              <div style="flex:0 0 calc(100vw - 72px);height:580px;border-radius:20px;overflow:hidden;position:relative;scroll-snap-align:start;transform:{{ c.transform }};opacity:{{ c.opacity }};transform-origin:center;transition:transform 0.3s ease,opacity 0.3s ease;background:{{ c.bg }};background-size:cover;background-position:center">
+                <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent)"></div>
+                <div style="position:absolute;left:24px;bottom:24px;right:24px">
+                  <div style="font-size:20px;font-weight:700;color:#fff">{{ c.title }}</div>
+                  <p style="margin:6px 0 0;font-size:14px;font-weight:400;line-height:1.5;color:#fff;opacity:0.85">{{ c.body }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;justify-content:center;gap:8px;margin-top:18px">
+            <sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ d.color }};transition:background .2s"></span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ howDesktop }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;margin-top:40px;display:flex;align-items:stretch;justify-content:center;gap:12px;height:480px">
+            <sc-for list="{{ panels }}" as="p" hint-placeholder-count="3">
+              <div onMouseEnter="{{ p.onOpen }}" style="position:relative;flex:0 0 {{ p.width }};width:{{ p.width }};height:480px;border-radius:20px;overflow:hidden;cursor:pointer;background:{{ p.bg }};background-size:cover;background-position:center;transition:flex-basis .5s cubic-bezier(0.4,0,0.2,1),width .5s cubic-bezier(0.4,0,0.2,1)">
+                <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6), transparent 55%)"></div>
+                <div style="position:absolute;left:0;right:0;bottom:0;padding:20px;z-index:2;opacity:{{ p.collapsedOpacity }};transition:opacity .25s ease">
+                  <div style="font-size:16px;font-weight:700;color:#fff">{{ p.title }}</div>
+                </div>
+                <div style="position:absolute;left:0;right:0;bottom:0;padding:32px;z-index:3;opacity:{{ p.openOpacity }};transition:opacity .3s ease .15s">
+                  <div style="font-size:36px;font-weight:700;color:#fff;line-height:1.05">{{ p.title }}</div>
+                  <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:#fff;opacity:0.85;transform:translateY({{ p.subShift }});transition:transform .3s ease .2s">{{ p.body }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="width:100%;margin-top:48px;max-width:640px">
+          <h3 style="margin:0;font-size:18px;font-weight:500;color:#1A1A1A">The idea behind 9rounds</h3>
+          <p style="margin:12px 0 0;font-size:14px;line-height:1.65;color:#444">9rounds is a nine-station kickboxing circuit — you rotate through every station once, with no rest and no repeats. No two days run the same combination, so your body never settles into a routine. There are no class times to catch: the timer starts when you do. The format strips out the guesswork, so all you have to do is show up and work.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="plans" style="background:#F7F7F7;padding:{{sectionPadY}} 24px">
+      <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
+        <h2 style="margin:0;font-size:24px;font-weight:700;text-align:center;color:#1A1A1A">Membership plans</h2>
+        <div style="width:{{accentBarW}};height:3px;background:#E31837;margin-top:14px;border-radius:{{btnRadius}}"></div>
+        <p style="margin:18px 0 0;font-size:14px;line-height:1.5;color:#666;text-align:center;max-width:34em">Pick the commitment that fits your goal. Every plan is the full nine-station circuit — choose one and we'll take you straight to checkout.</p>
+        <div style="width:100%;margin-top:40px;display:flex;flex-wrap:wrap;justify-content:center;gap:20px">
+          <sc-for list="{{ homePlans }}" as="p" hint-placeholder-count="5">
+            <div onClick="{{ goSubscribe }}" style="flex:0 1 {{planCardW}};max-width:100%;background:#fff;border:1px solid #E5E5E5;border-radius:{{cardRadius}};padding:24px;display:flex;flex-direction:column;gap:12px;cursor:pointer;transition:border-color .15s,box-shadow .15s" style-hover="border-color:#E31837;box-shadow:0 8px 24px rgba(0,0,0,.06)">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                <span style="font-size:18px;font-weight:500;color:#1A1A1A;line-height:1.25">{{ p.name }}</span>
+                <span style="flex:0 0 auto;font-size:11px;font-weight:500;color:#444;background:#F4F4F4;border-radius:100px;padding:4px 10px;white-space:nowrap">{{ p.duration }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-size:28px;font-weight:700;color:#1A1A1A">{{ p.priceStr }}</span>
+                <span style="font-size:16px;color:#999;text-decoration:line-through">{{ p.originalStr }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:12px;font-weight:500;color:#E31837;background:#FDEAED;border-radius:5px;padding:3px 8px">{{ p.saveStr }}</span>
+                <span style="font-size:12px;color:#999">Inclusive of VAT</span>
+              </div>
+              <button onClick="{{ goSubscribe }}" style="margin-top:6px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;height:40px;border:1px solid #E31837;border-radius:{{btnRadius}};background:#E31837;color:#fff;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:#c1142e">Choose plan</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#fff;padding:{{sectionPadY}} 24px">
+      <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
+        <h2 style="margin:0;font-size:24px;font-weight:700;text-align:center;color:#1A1A1A">What members say</h2>
+        <div style="width:{{accentBarW}};height:3px;background:#E31837;margin-top:14px;border-radius:{{btnRadius}}"></div>
+        <div style="width:100%;margin-top:36px;display:grid;grid-template-columns:{{reviewCols}};gap:20px">
+          <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+            <div style="background:#fff;border:1px solid #E5E5E5;border-radius:{{cardRadius}};padding:24px;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:2px;color:#E31837">
+                <i class="ti ti-star-filled" style="font-size:16px"></i><i class="ti ti-star-filled" style="font-size:16px"></i><i class="ti ti-star-filled" style="font-size:16px"></i><i class="ti ti-star-filled" style="font-size:16px"></i><i class="ti ti-star-filled" style="font-size:16px"></i>
+              </div>
+              <p style="margin:0;font-size:14px;line-height:1.6;color:#1A1A1A">{{ r.quote }}</p>
+              <div style="font-size:12px;font-weight:500;color:#999">{{ r.author }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    </div>
+
+  </main>
+
+  <footer style="position:relative;z-index:10;background:#C91D22;border-top:1px solid rgba(255,255,255,0.25);padding:48px 24px 32px">
+    <div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:40px">
+      <div style="display:grid;grid-template-columns:{{footerCols}};gap:32px">
+        <sc-for list="{{ footerGroups }}" as="g" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#FFFFFF">{{ g.title }}</div>
+            <sc-for list="{{ g.links }}" as="l" hint-placeholder-count="3">
+              <a href="#" style="font-size:14px;text-decoration:none;color:#FFFFFF;transition:opacity .15s" style-hover="opacity:0.75">{{ l }}</a>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.25);padding-top:24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#FFFFFF">Download our app</div>
+          <div style="display:flex;gap:12px">
+            <a href="#" style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:6px;background:#1A1A1A;color:#fff;text-decoration:none"><i class="ti ti-brand-apple" style="font-size:24px"></i><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-size:9px;color:#bbb">Download on the</span><span style="font-size:14px;font-weight:500">App Store</span></span></a>
+            <a href="#" style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:6px;background:#1A1A1A;color:#fff;text-decoration:none"><i class="ti ti-brand-google-play" style="font-size:22px"></i><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-size:9px;color:#bbb">Get it on</span><span style="font-size:14px;font-weight:500">Google Play</span></span></a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;color:#FFFFFF;font-size:12px"><img src="assets/9rounds-logo.webp" alt="9Rounds" style="width:24px;height:24px;object-fit:contain;display:block;filter:brightness(0) invert(1)" />© 2026 9ROUNDS. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div style="position:fixed;left:50%;bottom:28px;z-index:100;transform:translateX(-50%);background:#1A1A1A;color:#fff;padding:12px 20px;border-radius:6px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.18);animation:toastUp .25s ease-out">{{ toast }}</div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;heroMood&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Editorial&quot;,&quot;Spotlight&quot;,&quot;Bottom&quot;],&quot;default&quot;:&quot;Bottom&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Feel&quot;,&quot;unit&quot;:&quot;&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Minimal&quot;,&quot;Punchy&quot;,&quot;Maximal&quot;],&quot;default&quot;:&quot;Punchy&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Feel&quot;},&quot;corners&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Soft&quot;,&quot;Sharp&quot;],&quot;default&quot;:&quot;Soft&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Feel&quot;}}">
+class Component extends DCLogic {
+  state = {
+    w: (typeof window !== 'undefined' ? window.innerWidth : 1280),
+    locState: 'locating',   // locating | located | denied
+    query: '',
+    searched: false,
+    menuOpen: false,
+    openPanel: 0,
+    carouselIdx: 0,
+    toast: ''
+  };
+
+  branches = [
+    { name: '9Rounds Olaya', city: 'Riyadh', address: 'King Fahd Rd, Olaya District', hours: 'Open 6:00 AM – 11:00 PM', zip: '12244' },
+    { name: '9Rounds Al Malqa', city: 'Riyadh', address: 'Anas Ibn Malik Rd, Al Malqa', hours: 'Open 6:00 AM – 11:00 PM', zip: '13524' },
+    { name: '9Rounds Granada', city: 'Riyadh', address: 'Eastern Ring Rd, Granada', hours: 'Open 6:00 AM – 10:00 PM', zip: '13241' },
+    { name: '9Rounds Corniche', city: 'Jeddah', address: 'Prince Faisal Bin Fahd Rd', hours: 'Open 6:00 AM – 11:00 PM', zip: '23613' },
+    { name: '9Rounds Al Salamah', city: 'Jeddah', address: 'Sari St, Al Salamah', hours: 'Open 7:00 AM – 10:00 PM', zip: '23437' },
+    { name: '9Rounds Al Khobar', city: 'Khobar', address: 'Prince Turki St, Corniche', hours: 'Open 6:00 AM – 10:00 PM', zip: '34429' }
+  ];
+
+  pillars = [
+    { num: '01', icon: 'ti ti-circle-number-9', title: '9 rounds', body: '9 stations. Each one targets a different muscle group. No rest, no repeats — just 30 minutes of full-body work.', img: 'assets/step-9rounds.jpg' },
+    { num: '02', icon: 'ti ti-clock', title: '30 minutes', body: 'Every session is exactly 30 minutes. Start any time — there are no class schedules. The timer runs, you work.', img: 'assets/step-30min.jpg' },
+    { num: '03', icon: 'ti ti-user', title: 'Dedicated trainer', body: 'A trainer is always on the floor — coaching form, pushing intensity, and keeping you accountable every round.', img: 'assets/step-trainer.jpg' }
+  ];
+
+  reviews = [
+    { quote: '30 minutes and I am done — but I leave drenched. The trainer never lets me coast. Best decision I made this year.', author: 'Sara M. — Riyadh' },
+    { quote: 'No schedules, no waiting. I walk in, the timer starts, I work. It fits around my job perfectly.', author: 'Faisal A. — Jeddah' },
+    { quote: 'Every session is different, so I am never bored. The coaching on form has made me so much stronger.', author: 'Noura K. — Khobar' }
+  ];
+
+  homePlans = [
+    { name: 'One Month Real Change', duration: '1 Month', price: 390, original: 596 },
+    { name: 'Qualification Stage', duration: '100 Days', price: 850, original: 1790 },
+    { name: "Champions' Path", duration: '190 Days', price: 1560, original: 2950 },
+    { name: 'Lift the Trophy', duration: '370 Days', price: 2760, original: 4950 },
+    { name: 'Summer Package', duration: '12 Months', price: 2760, original: 4950 }
+  ];
+
+  footerGroups = [
+    { title: 'Company', links: ['About', 'Careers', 'Franchising', 'International Franchising'] },
+    { title: 'Resources', links: ['Blog', 'Member Login', 'Owner Login'] },
+    { title: 'Legal', links: ['Terms of Service', 'Privacy Policy', 'Accessibility', 'California Privacy', 'Sensitive Personal Information'] },
+    { title: 'Help', links: ['FAQ', 'Cancellations', 'Contact Us'] }
+  ];
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this._geoTimer = setTimeout(() => {
+      this.setState(s => (s.locState === 'locating' ? { locState: 'denied' } : null));
+    }, 1500);
+    try {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          () => { clearTimeout(this._geoTimer); this.setState({ locState: 'located' }); },
+          () => { clearTimeout(this._geoTimer); this.setState({ locState: 'denied' }); },
+          { timeout: 1400, maximumAge: 600000 }
+        );
+      } else {
+        clearTimeout(this._geoTimer);
+        this.setState({ locState: 'denied' });
+      }
+    } catch (e) {
+      clearTimeout(this._geoTimer);
+      this.setState({ locState: 'denied' });
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    clearTimeout(this._geoTimer);
+    clearTimeout(this._toastTimer);
+  }
+
+  showToast(msg) {
+    clearTimeout(this._toastTimer);
+    this.setState({ toast: msg });
+    this._toastTimer = setTimeout(() => this.setState({ toast: '' }), 2200);
+  }
+
+  renderVals() {
+    const w = this.state.w;
+    const isMobile = w < 768;
+
+    // ---- Expressive tweaks ----
+    const mood = this.props.heroMood || 'Editorial';
+    const accent = this.props.accent || 'Punchy';
+    const sharp = (this.props.corners || 'Soft') === 'Sharp';
+
+    // Corner style
+    const cardRadius = sharp ? '0px' : '10px';
+    const btnRadius  = sharp ? '0px' : '6px';
+    const heroRadius = sharp ? '0px' : '16px';
+    const iconRadius = sharp ? '0px' : '10px';
+
+    // Accent intensity
+    const iconBg    = accent === 'Minimal' ? '#F4F4F4' : accent === 'Maximal' ? '#E31837' : '#FDEAED';
+    const iconColor = accent === 'Maximal' ? '#FFFFFF' : accent === 'Minimal' ? '#1A1A1A' : '#E31837';
+    const cityColor = accent === 'Minimal' ? '#999999' : '#E31837';
+    const accentBarW = accent === 'Minimal' ? '0px' : accent === 'Maximal' ? '72px' : '40px';
+
+    // Hero mood
+    const img = "url('assets/hero-boxer.jpg')";
+    let heroBg, heroBgPos, heroJustify, heroAlign, heroTextAlign, heroContentMax, heroContentMargin, heroBtnJustify, heroH1Size;
+    if (mood === 'Spotlight') {
+      heroBg = "radial-gradient(circle at 50% 42%, rgba(17,17,17,.32) 0%, rgba(17,17,17,.86) 100%), " + img;
+      heroBgPos = 'center'; heroJustify = 'center'; heroAlign = 'center'; heroTextAlign = 'center';
+      heroContentMax = '640px'; heroContentMargin = '0 auto'; heroBtnJustify = 'center';
+      heroH1Size = isMobile ? '32px' : '46px';
+    } else if (mood === 'Bottom') {
+      heroBg = "linear-gradient(0deg, rgba(17,17,17,.92) 6%, rgba(17,17,17,.32) 56%, rgba(17,17,17,.12) 100%), " + img;
+      heroBgPos = 'center 20%'; heroJustify = 'flex-end'; heroAlign = 'flex-start'; heroTextAlign = 'left';
+      heroContentMax = '600px'; heroContentMargin = '0'; heroBtnJustify = 'flex-start';
+      heroH1Size = isMobile ? '28px' : '34px';
+    } else { // Editorial
+      heroBg = "linear-gradient(90deg, rgba(17,17,17,.84) 0%, rgba(17,17,17,.52) 44%, rgba(17,17,17,0) 80%), " + img;
+      heroBgPos = 'right center'; heroJustify = 'center'; heroAlign = 'flex-start'; heroTextAlign = 'left';
+      heroContentMax = '560px'; heroContentMargin = '0'; heroBtnJustify = 'flex-start';
+      heroH1Size = isMobile ? '28px' : '32px';
+    }
+    const loc = this.state.locState;
+    const q = this.state.query.trim().toLowerCase();
+
+    let list;
+    if (this.state.searched && q) {
+      list = this.branches.filter(b => b.city.toLowerCase().includes(q) || b.zip.startsWith(q));
+    } else if (loc === 'located') {
+      list = this.branches.filter(b => b.city === 'Riyadh');
+    } else {
+      list = [];
+    }
+
+    const branchCards = list.map(b => ({
+      ...b,
+      onView: () => this.showToast('Opening ' + b.name + ' — branch page coming soon')
+    }));
+
+    let noteText = '';
+    if (!this.state.searched) {
+      if (loc === 'located') noteText = 'Showing branches near you';
+      else if (loc === 'denied') noteText = 'Enable location access for auto-detection, or search manually.';
+    }
+
+    return {
+      // responsive
+      navDisplay: isMobile ? 'none' : 'flex',
+      hamburgerDisplay: isMobile ? 'flex' : 'none',
+      heroPadY: isMobile ? '48px' : '80px',
+      heroCardH: isMobile ? '480px' : '460px',
+      heroCardPad: isMobile ? '28px' : '56px',
+
+      // tweak-derived
+      heroBg, heroBgPos, heroJustify, heroAlign, heroTextAlign,
+      heroContentMax, heroContentMargin, heroBtnJustify, heroH1Size,
+      heroRadius, cardRadius, btnRadius, iconRadius,
+      iconBg, iconColor, cityColor, accentBarW,
+      heroDir: isMobile ? 'column' : 'row',
+      heroGap: isMobile ? '32px' : '56px',
+      heroTextW: isMobile ? '100%' : '55%',
+      heroImgW: isMobile ? '100%' : '45%',
+      heroImgH: isMobile ? '320px' : '480px',
+      h1Size: isMobile ? '28px' : '32px',
+      sectionPadY: isMobile ? '56px' : '80px',
+      pillarsDir: isMobile ? 'column' : 'row',
+      branchCols: isMobile ? '1fr' : '1fr 1fr',
+      genderCols: isMobile ? '1fr' : '1fr 1fr',
+      reviewCols: isMobile ? '1fr' : '1fr 1fr 1fr',
+      footerCols: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
+
+      // header
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+
+      // hero
+      goFreeTrial: () => { window.location.href = 'Free Trial.dc.html'; },
+      goSubscribe: () => { window.location.href = 'Subscribe.dc.html'; },
+
+      // branch finder
+      locating: loc === 'locating',
+      showSearch: loc !== 'locating',
+      query: this.state.query,
+      onQueryInput: (e) => this.setState({ query: e.target.value }),
+      onQueryKey: (e) => { if (e.key === 'Enter') this.setState({ searched: true }); },
+      doSearch: () => this.setState({ searched: true }),
+      noteText: noteText,
+      hasResults: branchCards.length > 0,
+      branches: branchCards,
+      showEmpty: this.state.searched && !!q && branchCards.length === 0,
+
+      // plans
+      planCardW: isMobile ? '100%' : '320px',
+      homePlans: this.homePlans.map(p => ({
+        name: p.name,
+        duration: p.duration,
+        priceStr: 'SAR ' + p.price.toLocaleString('en-US'),
+        originalStr: 'SAR ' + p.original.toLocaleString('en-US'),
+        saveStr: 'Save SAR ' + (p.original - p.price).toLocaleString('en-US')
+      })),
+
+      // content
+      pillars: this.pillars,
+      howMobile: isMobile,
+      howDesktop: !isMobile,
+      howCards: this.pillars.map((p, i) => ({
+        title: p.title,
+        body: p.body,
+        transform: i === this.state.carouselIdx ? 'scale(1)' : 'scale(0.96)',
+        opacity: i === this.state.carouselIdx ? 1 : 0.75,
+        bg: p.img ? "#1f1f1f url('" + p.img + "')" : '#1f1f1f'
+      })),
+      dots: this.pillars.map((p, i) => ({
+        color: i === this.state.carouselIdx ? '#E31837' : '#D9D9D9'
+      })),
+      onCarouselScroll: (e) => {
+        const el = e.target;
+        const step = el.scrollWidth / this.pillars.length;
+        const idx = Math.max(0, Math.min(this.pillars.length - 1, Math.round(el.scrollLeft / step)));
+        if (idx !== this.state.carouselIdx) this.setState({ carouselIdx: idx });
+      },
+      panels: this.pillars.map((p, i) => {
+        const open = i === this.state.openPanel;
+        return {
+          num: p.num,
+          title: p.title,
+          body: p.body,
+          bg: p.img ? "#1f1f1f url('" + p.img + "')" : '#1f1f1f',
+          width: open ? '520px' : '180px',
+          collapsedOpacity: open ? 0 : 1,
+          openOpacity: open ? 1 : 0,
+          subShift: open ? '0' : '8px',
+          onOpen: () => this.setState({ openPanel: i })
+        };
+      }),      reviews: this.reviews,
+      footerGroups: this.footerGroups,
+
+      toast: this.state.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
